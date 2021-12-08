@@ -1,0 +1,33 @@
+.login-container{
+    float: left;
+    width: 35%;
+    background-color: #800000;
+    height:100vh;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    #roseLogo{
+        width: 80%;
+    }
+
+    .webLink{
+        font-size: 1.5rem;
+        color: white;
+        border-radius: 0.4rem;
+        padding: 0.5rem;
+
+        a {
+            margin-left: 0.75rem;
+        }
+
+        &:hover{
+            background-color:rgba(255,255,255,1);
+            color:#800000;
+            transition-duration: 1s;
+            cursor: pointer;
+        }
+    }
+}
