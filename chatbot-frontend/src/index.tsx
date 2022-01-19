@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import './styles/main.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '@progress/kendo-react-conversational-ui'
 
 ReactDOM.render(
   <React.StrictMode>
