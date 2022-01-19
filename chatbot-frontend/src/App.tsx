@@ -3,6 +3,7 @@ import LoginContainer from './components/LoginContainer';
 import ChatContainer from './components/ChatContainer';
 
 import socketIOClient from "socket.io-client";
+import TempContainer from './components/TemporaryContainer';
 
 const ENDPOINT = "http://localhost:8001/";
 const socket = socketIOClient(ENDPOINT);
@@ -23,7 +24,8 @@ function App() {
   return (
     <div className= "App">
       <LoginContainer/>
-      <ChatContainer socket={socket }/>
+      <TempContainer/>
+      {/* <ChatContainer socket={socket }/> */}
     </div>
   );
 }
