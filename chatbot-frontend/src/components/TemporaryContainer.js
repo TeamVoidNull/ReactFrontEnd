@@ -3,17 +3,18 @@ import * as ReactDOM from "react-dom";
 import { Chat, HeroCard } from "@progress/kendo-react-conversational-ui";
 import { DirectLine } from "botframework-directlinejs";
 import AdaptiveCards from "adaptivecards";
+
 const client = new DirectLine({
-  secret: "Y_ly-If6haE.cwA.PQE.ZwOOsq4MlHcD3_YLFI-t9oW6L6DXMMBoi67LBz9WaWA",
+  secret: "8UnS-Ty383E.t3MkpbLf4CSdFUedsQmx0N0J_dkfknRJl-mHgvTPMiM",
 });
 const bot = {
-  id: "Botyo-BotTesting",
-  name: "Travel Agent",
-  avatarUrl: "https://demos.telerik.com/kendo-ui/content/chat/VacationBot.png",
+  id: "roseqnamakertemp-bot",
+  name: "Rosie",
+  avatarUrl: "https://bloximages.chicago2.vip.townnews.com/tribstar.com/content/tncms/assets/v3/editorial/2/e4/2e4859c4-a92b-11e5-9d44-f30c2899702c/567a1f0b1c3de.image.jpg",
 };
 const user = {
   id: "User",
-  name: "KendoReact",
+  name: "You",
 };
 
 export default function TempContainer() {
