@@ -1,6 +1,7 @@
 import roseLogo from "../images/rose_name.png"
 
 
+//Left side of the website.  That is all. 
 export default function LoginContainer() {
 
     const openWebsite = () =>
