@@ -1,0 +1,22 @@
+{
+  "name": "reactfrontend",
+  "version": "1.0.0",
+  "description": "The react front end for IRPA chatbot",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TeamVoidNull/ReactFrontEnd.git"
+  },
+  "author": "TeamVoidNull",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TeamVoidNull/ReactFrontEnd/issues"
+  },
+  "homepage": "https://github.com/TeamVoidNull/ReactFrontEnd#readme",
+  "dependencies": {
+    "express": "^4.18.0"
+  }
+}
