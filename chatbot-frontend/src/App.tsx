@@ -24,7 +24,7 @@ function App() {
   return (
     <div className= "App">
       <LoginContainer/>
-      <TempContainer/>
+      <ChatContainer/>
       {/* <ChatContainer socket={socket }/> */}
     </div>
   );
