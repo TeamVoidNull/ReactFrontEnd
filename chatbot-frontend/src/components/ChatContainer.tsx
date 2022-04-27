@@ -2,15 +2,15 @@
 import { useEffect, useState } from "react";
 import * as React from "react";
 import cx from "classnames";
-import { Socket } from "socket.io";
-import { DirectLine } from "botframework-directlinejs";
-import { resourceLimits } from "worker_threads";
-import { act } from "react-dom/test-utils";
 
+import { DirectLine } from "botframework-directlinejs";
+// import { resourceLimits } from "worker_threads";
+// import { act } from "react-dom/test-utils";
+// import { Socket } from "socket.io";
 
 //Direct Line way to connect to the chatbot
 const client = new DirectLine({
-    secret: "8UnS-Ty383E.t3MkpbLf4CSdFUedsQmx0N0J_dkfknRJl-mHgvTPMiM",
+    secret: "Pl0xVroBOWU.yElRz4iWd95g_saIACt5sGy3xp6uxzCMSQCNXGGyBg0",
   });
   const bot = {
     id: "roseqnamakertemp-bot",
@@ -28,7 +28,8 @@ export default function ChatContainer() {
     // const { socket } = props
 
     //Message List -> Has message (text), sender (0 for user and 1 for bot), link (either empty or link), title (title of link), addon (0 for no addon, 1 for link, 2 for image) 
-    const [messages, setMessages] = useState<any>([])
+    const beginningMessage = "Hello, This is Rosie.  What questions do you have?"
+    const [messages, setMessages] = useState<any>([{ message: beginningMessage, sender: 1, title: "", linky: "", addon: 0 }])
     const [inputMessage, setInputMessage] = useState<string>("")
 
     // useEffect(() => {
@@ -93,7 +94,7 @@ export default function ChatContainer() {
                     }
                 }
 
-                setMessages([...messages, { message: shortened, sender: 1, title: bracky, link: linky, addon: addon}]);
+                setMessages([...messages, { message: shortened, sender: 1, title: bracky, linky: linky, addon: addon}]);
 
                 console.log("something happened");
             }
@@ -119,7 +120,7 @@ export default function ChatContainer() {
               (id) => console.log("Posted activity, assigned ID ", id),
               (error) => console.log("Error posting activity", error)
             );
-            setMessages([...messages, { message: inputMessage, sender: 0, title: "", link: "", addon: 0 }])
+            setMessages([...messages, { message: inputMessage, sender: 0, title: "", linky: "", addon: 0 }])
             setInputMessage("");
         }
         // socket.emit("client message", inputMessage);
@@ -141,7 +142,7 @@ export default function ChatContainer() {
               (id) => console.log("Posted activity, assigned ID ", id),
               (error) => console.log("Error posting activity", error)
             );
-            setMessages([...messages, { message: inputMessage, sender: 0, title: "", link: "", addon: 0  }])
+            setMessages([...messages, { message: inputMessage, sender: 0, title: "", linky: "", addon: 0  }])
             setInputMessage("");
         }
     }
@@ -186,6 +187,8 @@ export default function ChatContainer() {
                                             <a>
                                                 {message.message} 
                                             </a>
+                                            <br></br>
+                                            <br></br>
                                             <img src={message.linky}/>
                                         
                                     </div>
