@@ -5,7 +5,7 @@ import { DirectLine } from "botframework-directlinejs";
 import AdaptiveCards from "adaptivecards";
 
 const client = new DirectLine({
-  secret: "8UnS-Ty383E.t3MkpbLf4CSdFUedsQmx0N0J_dkfknRJl-mHgvTPMiM",
+  secret: "Pl0xVroBOWU.Tltz4ItkRPLQ8Z5PURYFoRBu2gsjtbwVAp7aecv7dsk",
 });
 const bot = {
   id: "roseqnamakertemp-bot",
