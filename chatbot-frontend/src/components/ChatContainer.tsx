@@ -9,18 +9,18 @@ import { DirectLine } from "botframework-directlinejs";
 // import { Socket } from "socket.io";
 
 //Direct Line way to connect to the chatbot
-const client = new DirectLine({
-    secret: "Pl0xVroBOWU.yElRz4iWd95g_saIACt5sGy3xp6uxzCMSQCNXGGyBg0",
-  });
-  const bot = {
+// const client = new DirectLine({
+//     secret: "Pl0xVroBOWU.yElRz4iWd95g_saIACt5sGy3xp6uxzCMSQCNXGGyBg0",
+//   });
+const bot = {
     id: "roseqnamakertemp-bot",
     name: "Rosie",
     avatarUrl: "https://bloximages.chicago2.vip.townnews.com/tribstar.com/content/tncms/assets/v3/editorial/2/e4/2e4859c4-a92b-11e5-9d44-f30c2899702c/567a1f0b1c3de.image.jpg",
-  };
-  const user = {
+};
+const user = {
     id: "User",
     name: "You",
-  };
+};
 
 
 //Right side of the website.  All the commented out code was for using socket, which we are not using.
@@ -74,54 +74,91 @@ export default function ChatContainer() {
     };
 
     //called when bot sends a response back.
-    const onResponse = React.useCallback(
-        (activity) => {
-            if (activity.from.id === bot.id) {
-                const bracky = getBracket(activity.text)
-                var linky = ""
-                var addon = 0
-                var shortened = activity.text
-                //check if has addon
-                if (bracky.length > 0){
-                    linky = getLink(activity.text)
-                    addon = 1
-                    shortened = shortened.substring(0, shortened.indexOf("["))
-                    //check if image
-                    if (activity.text.includes("![")) {
-                        addon = 2;
-                        shortened = shortened.substring(0, shortened.length-1)
-                        console.log(linky);
-                    }
-                }
+    // const onResponse = React.useCallback(
+    //     (activity) => {
+    //         if (activity.from.id === bot.id) {
+    //             const bracky = getBracket(activity.text)
+    //             var linky = ""
+    //             var addon = 0
+    //             var shortened = activity.text
+    //             //check if has addon
+    //             if (bracky.length > 0){
+    //                 linky = getLink(activity.text)
+    //                 addon = 1
+    //                 shortened = shortened.substring(0, shortened.indexOf("["))
+    //                 //check if image
+    //                 if (activity.text.includes("![")) {
+    //                     addon = 2;
+    //                     shortened = shortened.substring(0, shortened.length-1)
+    //                     console.log(linky);
+    //                 }
+    //             }
 
-                setMessages([...messages, { message: shortened, sender: 1, title: bracky, linky: linky, addon: addon}]);
+    //             setMessages([...messages, { message: shortened, sender: 1, title: bracky, linky: linky, addon: addon}]);
 
-                console.log("something happened");
+    //             console.log("something happened");
+    //         }
+    //     }, [messages]
+    // );
+
+    // React.useEffect(() => {
+    //     client.activity$.subscribe((activity) => onResponse(activity));
+    // }, [onResponse]);
+//[{ message: beginningMessage, sender: 1, title: "", linky: "", addon: 0 }]
+    const updateMessages = (message: string, messages: {message: string, sender: number, title: string, linky: string, addon: number}[]) => {
+        const bracky = getBracket(message)
+        var linky = ""
+        var addon = 0
+        var shortened = message
+        //check if has addon
+        if (bracky.length > 0){
+            linky = getLink(message)
+            addon = 1
+            shortened = shortened.substring(0, shortened.indexOf("["))
+            //check if image
+            if (message.includes("![")) {
+                addon = 2;
+                shortened = shortened.substring(0, shortened.length-1)
+                console.log(linky);
             }
-        }, [messages]
-    );
+        }
 
-    React.useEffect(() => {
-        client.activity$.subscribe((activity) => onResponse(activity));
-    }, [onResponse]);
+        setMessages([...messages, { message: shortened, sender: 1, title: bracky, linky: linky, addon: addon}]);
+
+    }
 
     const sendPressed = () => {
         if(inputMessage !== ""){
-            client
-            .postActivity({
-              from: {
-                id: user.id,
-                name: user.name,
-              },
-              type: "message",
-              text: inputMessage,
-            })
-            .subscribe(
-              (id) => console.log("Posted activity, assigned ID ", id),
-              (error) => console.log("Error posting activity", error)
-            );
-            setMessages([...messages, { message: inputMessage, sender: 0, title: "", linky: "", addon: 0 }])
+            // client
+            // .postActivity({
+            //   from: {
+            //     id: user.id,
+            //     name: user.name,
+            //   },
+            //   type: "message",
+            //   text: inputMessage,
+            // })
+            // .subscribe(
+            //   (id) => console.log("Posted activity, assigned ID ", id),
+            //   (error) => console.log("Error posting activity", error)
+            // );
+            let newMessages = [...messages, { message: inputMessage, sender: 0, title: "", linky: "", addon: 0 }];
+            setMessages(newMessages)
             setInputMessage("");
+            fetch("https://chattest2-b663.azurewebsites.net/qnamaker/knowledgebases/6478d078-6145-414f-bfa1-816bacc6c8bf/generateAnswer", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Host': 'https://chattest2-b663.azurewebsites.net/qnamaker',
+                    'Authorization' : 'EndpointKey 590342a0-c347-418f-9bc4-1a35c8ceec84'
+                }, 
+                body: JSON.stringify({question: inputMessage})
+              }).then(res => {
+                console.log("Request complete! Parsing body");
+                return res.json();
+              }).then( data => {
+                updateMessages(data.answers[0].answer, newMessages);
+              });
         }
         // socket.emit("client message", inputMessage);
     }
@@ -129,21 +166,36 @@ export default function ChatContainer() {
     const enterPressed = (e: any) => {
         e.preventDefault()
         if(inputMessage !== ""){
-            client
-            .postActivity({
-              from: {
-                id: user.id,
-                name: user.name,
-              },
-              type: "message",
-              text: inputMessage,
-            })
-            .subscribe(
-              (id) => console.log("Posted activity, assigned ID ", id),
-              (error) => console.log("Error posting activity", error)
-            );
-            setMessages([...messages, { message: inputMessage, sender: 0, title: "", linky: "", addon: 0  }])
+            // client
+            // .postActivity({
+            //   from: {
+            //     id: user.id,
+            //     name: user.name,
+            //   },
+            //   type: "message",
+            //   text: inputMessage,
+            // })
+            // .subscribe(
+            //   (id) => console.log("Posted activity, assigned ID ", id),
+            //   (error) => console.log("Error posting activity", error)
+            // );
+            let newMessages = [...messages, { message: inputMessage, sender: 0, title: "", linky: "", addon: 0 }];
+            setMessages(newMessages)
             setInputMessage("");
+            fetch("https://chattest2-b663.azurewebsites.net/qnamaker/knowledgebases/6478d078-6145-414f-bfa1-816bacc6c8bf/generateAnswer", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Host': 'https://chattest2-b663.azurewebsites.net/qnamaker',
+                    'Authorization' : 'EndpointKey 590342a0-c347-418f-9bc4-1a35c8ceec84'
+                }, 
+                body: JSON.stringify({question: inputMessage})
+              }).then(res => {
+                console.log("Request complete! Parsing body");
+                return res.json();
+              }).then( data => {
+                updateMessages(data.answers[0].answer, newMessages);
+              });
         }
     }
 
