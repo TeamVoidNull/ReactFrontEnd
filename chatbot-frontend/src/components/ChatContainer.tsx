@@ -13,7 +13,7 @@ import { DirectLine } from "botframework-directlinejs";
 //     secret: "Pl0xVroBOWU.yElRz4iWd95g_saIACt5sGy3xp6uxzCMSQCNXGGyBg0",
 //   });
 const bot = {
-    id: "roseqnamakertemp-bot",
+    id: "chattest2-b663-bot",
     name: "Rosie",
     avatarUrl: "https://bloximages.chicago2.vip.townnews.com/tribstar.com/content/tncms/assets/v3/editorial/2/e4/2e4859c4-a92b-11e5-9d44-f30c2899702c/567a1f0b1c3de.image.jpg",
 };
